@@ -92,6 +92,45 @@ public class DriveSubsystem extends SubsystemBase {
             m_rearLeft.getPosition(),
             m_rearRight.getPosition()
         });
+
+        Double avgTemp = (m_frontLeft.getDriveTemp()+m_frontLeft.getTurnTemp()+m_frontRight.getDriveTemp()+m_frontRight.getTurnTemp()+
+        m_rearLeft.getDriveTemp()+m_rearLeft.getTurnTemp()+m_rearRight.getDriveTemp()+m_rearRight.getTurnTemp())/8;
+        SmartDashboard.putNumber("Avg drive temp",avgTemp);
+
+Double MaxTemp = m_frontLeft.getDriveTemp();
+String MotorName = "frontLeft dr";
+
+if(MaxTemp < m_frontLeft.getTurnTemp()){
+  MaxTemp = m_frontLeft.getTurnTemp();
+  MotorName = "frontLeft Tr";
+}
+if(MaxTemp < m_frontRight.getTurnTemp()){
+  MaxTemp = m_frontRight.getTurnTemp();
+  MotorName = "frontRight Tr";
+}
+if(MaxTemp < m_frontRight.getDriveTemp()){
+  MaxTemp = m_frontRight.getDriveTemp();
+  MotorName = "frontRight Dr";
+}
+
+if(MaxTemp < m_rearLeft.getTurnTemp()){
+  MaxTemp = m_rearLeft.getTurnTemp();
+  MotorName = "rearLeft Tr";
+}
+if(MaxTemp < m_rearLeft.getDriveTemp()){
+  MaxTemp = m_rearLeft.getDriveTemp();
+  MotorName = "rearLeft Dr";
+}
+if(MaxTemp < m_rearRight.getTurnTemp()){
+  MaxTemp = m_rearRight.getTurnTemp();
+  MotorName = "rearRight Tr";
+}
+if(MaxTemp < m_rearRight.getDriveTemp()){
+  MaxTemp = m_rearRight.getDriveTemp();
+  MotorName = "rearRight Dr";
+}
+SmartDashboard.putNumber("Max Temp",MaxTemp);
+SmartDashboard.putString("motor name", MotorName);
   }
 
   /**

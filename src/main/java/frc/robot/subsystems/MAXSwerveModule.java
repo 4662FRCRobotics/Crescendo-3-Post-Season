@@ -161,4 +161,10 @@ public class MAXSwerveModule {
   public void resetEncoders() {
     m_drivingEncoder.setPosition(0);
   }
+  public double getDriveTemp(){
+    return m_drivingSparkMax.getMotorTemperature();
+  }
+  public double getTurnTemp(){
+    return m_turningSparkMax.getMotorTemperature();
+  }
 }

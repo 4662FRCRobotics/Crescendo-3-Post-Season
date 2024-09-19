@@ -88,11 +88,11 @@ public class RobotContainer {
                                                                 // This will map the [-1, 1] to [max speed backwards,
                                                                 // max speed forwards],
                                                                 // converting them to actual units.
-                                                                -MathUtil.applyDeadband(
+                                                                .5*-MathUtil.applyDeadband(
                                                                                 -m_driverController.getLeftY(), .08),
-                                                                MathUtil.applyDeadband(
+                                                                                .5* MathUtil.applyDeadband(
                                                                                 m_driverController.getLeftX(), .08),
-                                                                -MathUtil.applyDeadband(
+                                                                                .5* -MathUtil.applyDeadband(
                                                                                 m_driverController.getRightX(), .08),
 
                                                                 false, false, !m_Intake.isOut()),
@@ -139,11 +139,14 @@ public class RobotContainer {
                 // intake spit note into shooter, then waits .25 seconds to let note leave.
                 m_driverController
                                 .y()
-                                .whileTrue(Commands.parallel(Commands.run(() -> m_Intake.intakeNote()),
-                                                Commands.run(() -> m_Shooter.Shoot(-.3))));
+                                .whileTrue(Commands.parallel(Commands.run(() -> m_Intake.intakeNote(.5)),
+                                                Commands.run(() -> m_Shooter.Shoot(-.2))));
                 m_driverController
                                 .b()
-                                .whileTrue(Commands.run(() -> m_Intake.dropNote()));
+                                .whileTrue(
+                                        Commands.sequence(
+                                                new DeployIntake(m_Intake),
+                                                Commands.run(() -> m_Intake.dropNote())));
                 m_driverController
                                 .b()
                                 .onFalse(Commands.run(() -> m_Intake.holdNote()));

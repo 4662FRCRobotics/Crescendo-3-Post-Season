@@ -49,12 +49,15 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     SmartDashboard.putBoolean("Forward Limit Switch", m_forwardLimit.isPressed());
     SmartDashboard.putBoolean("Reverse Limit Switch", m_reverseLimit.isPressed());
+    SmartDashboard.putNumber("Motor Temp", m_spinMotor.getMotorTemperature());
   }
 
   public void intakeNote() {
     m_spinMotor.set(1);
   }
-
+  public void intakeNote(Double speed) {
+    m_spinMotor.set(speed);
+  }
   public void holdNote() {
     m_spinMotor.stopMotor();
   }

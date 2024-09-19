@@ -31,7 +31,7 @@ m_Intake = intake;
   public void initialize() {
     m_timer.reset();
     m_timer.start();
-    m_shooter.Shoot(m_Tele.getPo(0));
+    m_shooter.Shoot(.9);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
