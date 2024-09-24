@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import org.photonvision.PhotonCamera;
+
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -78,6 +80,9 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kMAX_SPEED_METERS_PER_SECOND,
       DriveConstants.kMAX_ACCELERATION_METERS_PER_SECOND_SQUARED)
       .setKinematics(DriveConstants.kDriveKinematics);
+
+    PhotonCamera m_driverCamera = new PhotonCamera("Microsoft_LifeCam_HD-3000");
+    m_driverCamera.setDriverMode(true);
   }
 
   @Override
@@ -170,6 +175,10 @@ SmartDashboard.putString("motor name", MotorName);
    * @param rateLimit     Whether to enable rate limiting for smoother control.
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit, boolean isHighSpeed) {
+    xSpeed = squareAxis(xSpeed);
+    ySpeed = squareAxis(ySpeed);
+    rot = squareAxis(rot);
+
     if (isHighSpeed){
       m_dSpeedMutiplyer= 1;
     }else{
@@ -242,6 +251,9 @@ SmartDashboard.putString("motor name", MotorName);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
     m_rearRight.setDesiredState(swerveModuleStates[3]);
   }
+ private double squareAxis(double axis) {
+  return Math.copySign(axis * axis, axis);
+ }
 
   /**
    * Sets the wheels into an X formation to prevent movement.
